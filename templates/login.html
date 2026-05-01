@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In | NoteCloud</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body { overflow: hidden; margin: 0; }
+    .auth-wrap { display: flex; min-height: 100vh; }
+
+    /* ── Left form panel ── */
+    .auth-left {
+      flex: 0 0 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 3rem 4rem;
+      background: #fff;
+      position: relative;
+      z-index: 2;
+    }
+    @media (max-width: 1024px) { .auth-left { flex: 0 0 480px; } }
+    @media (max-width: 900px) { .auth-left { flex: 1; padding: 2rem 1.5rem; } }
+
+    /* ── Right visual panel ── */
+    .auth-right {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #312e81 0%, #4f46e5 40%, #7c3aed 75%, #a855f7 100%);
+      display: none;
+    }
+    @media (min-width: 900px) { .auth-right { display: flex; align-items: center; justify-content: center; } }
+
+    /* animated mesh blobs */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      animation: blob-float 8s ease-in-out infinite;
+    }
+    @keyframes blob-float {
+      0%,100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.05); }
+    }
+
+    /* floating feature cards */
+    .float-card {
+      position: absolute;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 1rem;
+      padding: .875rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      color: #fff;
+      font-size: .875rem;
+      font-weight: 600;
+      white-space: nowrap;
+      box-shadow: 0 8px 32px rgba(0,0,0,.15);
+      animation: float-card 6s ease-in-out infinite;
+    }
+    @keyframes float-card {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .float-card .card-icon {
+      width: 2rem; height: 2rem;
+      background: rgba(255,255,255,.2);
+      border-radius: .5rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+    }
+
+    /* stat pills */
+    .stat-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .stat-pill {
+      text-align: center;
+    }
+    .stat-pill .num {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.03em;
+    }
+    .stat-pill .lbl {
+      font-size: .6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      opacity: .55;
+      color: #fff;
+      margin-top: .1rem;
+    }
+    .stat-divider {
+      width: 1px;
+      background: rgba(255,255,255,.2);
+      align-self: stretch;
+    }
+
+    /* form styling */
+    .form-logo { display: inline-flex; align-items: center; gap: .625rem; text-decoration: none; margin-bottom: 2.5rem; }
+    .form-logo .icon { width: 2.25rem; height: 2.25rem; background: var(--primary); border-radius: .625rem; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 1.125rem; }
+    .form-logo span { font-size: 1.25rem; font-weight: 700; color: var(--text); letter-spacing: -.025em; }
+
+    .input-row { display: flex; flex-direction: column; gap: .4rem; }
+    .input-row label { font-size: .6875rem; font-weight: 900; text-transform: uppercase; letter-spacing: .15em; color: var(--text-muted); }
+    .input-row input { padding: .75rem 1rem; border: 1.5px solid #e5e7eb; border-radius: .625rem; font-size: .9375rem; font-family: inherit; color: var(--text); background: #fafafa; transition: border-color .2s, box-shadow .2s; outline: none; }
+    .input-row input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(79,70,229,.08); }
+
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, #e5e7eb, transparent); margin: .25rem 0; }
+  </style>
+</head>
+<body>
+
+{# Automated Toast Logic for Flashed Messages #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        {% for category, message in messages %}
+          showToast("{{ message }}", "{{ 'success' if category == 'success' else 'error' }}");
+        {% endfor %}
+      });
+    </script>
+  {% endif %}
+{% endwith %}
+
+<div class="auth-wrap">
+
+  <!-- ── LEFT: Form ── -->
+  <div class="auth-left">
+    <a href="/" class="form-logo">
+      <div class="icon">N</div>
+      <span>NoteCloud</span>
+    </a>
+
+    <h1 style="font-size:2rem;font-weight:700;letter-spacing:-.03em;color:var(--text);margin-bottom:.4rem;">Welcome back</h1>
+    <p style="font-size:.9375rem;color:var(--text-muted);margin-bottom:2rem;">
+      Don't have an account? <a href="{{ url_for('register') }}" style="color:var(--primary);font-weight:600;text-decoration:none;">Sign up free</a>
+    </p>
+
+    <form method="POST" style="display:flex;flex-direction:column;gap:1.25rem;">
+      <div class="input-row">
+        <label>Username</label>
+        <input type="text" name="username" required placeholder="your_username" autocomplete="username">
+      </div>
+      <div class="input-row">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <label>Password</label>
+          <a href="{{ url_for('forgot_password') }}" style="font-size:.75rem;font-weight:600;color:var(--primary);text-decoration:none;">Forgot password?</a>
+        </div>
+        <input type="password" name="password" required placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <input type="checkbox" id="remember" style="width:1rem;height:1rem;accent-color:var(--primary);">
+        <label for="remember" style="font-size:.875rem;color:var(--text-muted);cursor:pointer;">Remember me for 30 days</label>
+      </div>
+      <button type="submit" class="btn-primary" style="width:100%;padding:.875rem;font-size:1rem;margin-top:.25rem;border-radius:.625rem;">
+        Sign in to NoteCloud →
+      </button>
+    </form>
+
+    <div class="divider" style="margin-top:2rem;"></div>
+    <p style="margin-top:1.5rem;font-size:.75rem;color:var(--text-muted);text-align:center;">
+      Protected by AWS Cognito &nbsp;·&nbsp; End-to-end encrypted storage
+    </p>
+  </div>
+
+  <!-- ── RIGHT: Visual ── -->
+  <div class="auth-right">
+    <!-- Blobs -->
+    <div class="blob" style="width:500px;height:500px;background:#7c3aed;top:-100px;right:-100px;animation-delay:0s;"></div>
+    <div class="blob" style="width:350px;height:350px;background:#4f46e5;bottom:-80px;left:-60px;animation-delay:3s;"></div>
+    <div class="blob" style="width:200px;height:200px;background:#a855f7;top:50%;left:20%;animation-delay:1.5s;"></div>
+
+    <!-- Floating cards -->
+    <div class="float-card" style="top:14%;left:8%;animation-delay:0s;">
+      <div class="card-icon">🔒</div>
+      <div><div style="font-size:.6875rem;opacity:.7;font-weight:500;">Security</div>AWS Cognito Auth</div>
+    </div>
+    <div class="float-card" style="top:22%;right:10%;animation-delay:2s;">
+      <div class="card-icon">☁️</div>
+      <div><div style="font-size:.6875rem;opacity:.7;font-weight:500;">Storage</div>S3 Backed Files</div>
+    </div>
+    <div class="float-card" style="bottom:22%;left:6%;animation-delay:4s;">
+      <div class="card-icon">🎓</div>
+      <div><div style="font-size:.6875rem;opacity:.7;font-weight:500;">Platform</div>Professor-Led Classes</div>
+    </div>
+
+    <!-- Center content -->
+    <div style="position:relative;z-index:1;text-align:center;color:#fff;padding:2rem;max-width:24rem;">
+      <div style="font-size:.6875rem;font-weight:900;text-transform:uppercase;letter-spacing:.25em;opacity:.6;margin-bottom:1.5rem;">NoteCloud Platform</div>
+      <h2 style="font-size:2.75rem;font-weight:800;line-height:1.1;letter-spacing:-.04em;margin-bottom:1rem;">The smarter way to manage your studies.</h2>
+      <p style="font-size:1rem;opacity:.8;line-height:1.7;">
+        Secure cloud notes, professor-led classrooms, and S3-backed file storage — all in one place.
+      </p>
+      <div class="stat-row" style="justify-content:center;">
+        <div class="stat-pill"><div class="num">10k+</div><div class="lbl">Users</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-pill"><div class="num">50k+</div><div class="lbl">Notes</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-pill"><div class="num">99.9%</div><div class="lbl">Uptime</div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

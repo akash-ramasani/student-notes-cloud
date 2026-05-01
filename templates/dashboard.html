@@ -1,0 +1,125 @@
+{% from "macros.html" import topbar, footer %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | NoteCloud</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="fade-in">
+
+{{ topbar(current_user) }}
+
+<main style="flex:1;padding-top:5rem;padding-bottom:4rem;">
+<div class="container">
+<div class="page-wrapper">
+
+  <!-- Hero Banner -->
+  <div class="hero-gradient">
+    <div class="deco" style="width:18rem;height:18rem;top:-5rem;right:-5rem;"></div>
+    <div class="deco" style="width:10rem;height:10rem;bottom:-3rem;left:-3rem;"></div>
+    <div style="position:relative;z-index:1;max-width:42rem;">
+      <p style="font-size:.6875rem;font-weight:900;text-transform:uppercase;letter-spacing:.25em;opacity:.7;margin-bottom:.75rem;">Dashboard</p>
+      <h1 style="font-size:2rem;font-weight:700;letter-spacing:-.025em;">Welcome back, {{ user.display_name }}! 👋</h1>
+      <p style="margin-top:.75rem;font-size:1.0625rem;opacity:.8;line-height:1.7;">
+        Your intelligent classroom platform — {{ user.role.capitalize() }} view.
+      </p>
+      <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:.75rem;">
+        {% if user.role == 'professor' %}
+        <span class="pill">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/></svg>
+          Professor
+        </span>
+        {% else %}
+        <span class="pill">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          Student
+        </span>
+        {% endif %}
+        <a href="/account" class="pill">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Profile Settings
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Classrooms -->
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+      <div>
+        <p class="caps-label" style="color:var(--primary);margin-bottom:.25rem;">
+          {% if user.role == 'professor' %}Your Classes{% else %}Enrolled Classes{% endif %}
+        </p>
+        <h2 style="font-size:1.25rem;font-weight:700;">Classrooms</h2>
+      </div>
+      {% if user.role == 'professor' %}
+      <form action="{{ url_for('create_class') }}" method="POST" style="display:flex;gap:.75rem;">
+        <input type="text" name="name" placeholder="New class name…" required class="input-standard" style="width:220px;">
+        <button type="submit" class="btn-primary">Create Class</button>
+      </form>
+      {% else %}
+      <form action="{{ url_for('join_class') }}" method="POST" style="display:flex;gap:.75rem;">
+        <input type="text" name="join_code" placeholder="Enter join code…" required class="input-standard" style="width:180px;">
+        <button type="submit" class="btn-primary">Join Class</button>
+      </form>
+      {% endif %}
+    </div>
+
+    <div class="grid-auto">
+      {% for c in classes %}
+      <div class="feature-card" onclick="location.href='/class/{{ c.id }}'" style="cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;min-height:10rem;">
+        <div>
+          <p class="caps-label" style="color:var(--primary);margin-bottom:.5rem;">{{ c.professor.display_name }}</p>
+          <h3 style="font-size:1.125rem;font-weight:700;color:var(--text);">{{ c.name }}</h3>
+        </div>
+        <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+          <code style="font-size:.75rem;background:var(--bg-alt);padding:.25rem .5rem;border-radius:.375rem;font-weight:700;">{{ c.join_code }}</code>
+          <span style="font-size:.8125rem;font-weight:600;color:var(--primary);">Open &rarr;</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Personal Notes -->
+  <div style="border-top:1px solid var(--border-dark);padding-top:3rem;">
+    <div style="margin-bottom:1.5rem;">
+      <p class="caps-label" style="color:var(--primary);margin-bottom:.25rem;">Private</p>
+      <h2 style="font-size:1.25rem;font-weight:700;">Personal Library</h2>
+      <p style="font-size:.875rem;color:var(--text-muted);margin-top:.25rem;">Notes only you can see.</p>
+    </div>
+    <div class="grid-auto">
+      <!-- Upload card -->
+      <div class="dropzone" onclick="document.getElementById('note-upload').click()" style="min-height:10rem;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+        <div style="width:3rem;height:3rem;background:rgba(79,70,229,.08);border-radius:.75rem;display:flex;align-items:center;justify-content:center;">
+          <svg width="24" height="24" fill="none" stroke="#4f46e5" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
+        </div>
+        <div style="text-align:center;">
+          <p style="font-size:.875rem;font-weight:600;"><span style="color:var(--primary);">Upload a file</span> or drag & drop</p>
+          <p style="font-size:.75rem;color:var(--text-muted);margin-top:.25rem;">PDF, DOCX, TXT, images</p>
+        </div>
+        <input type="file" id="note-upload" class="sr-only" onchange="handleFileUpload(event)">
+      </div>
+
+      {% for note in notes %}
+      <div class="feature-card" style="display:flex;flex-direction:column;justify-content:space-between;">
+        <div>
+          <p class="caps-label" style="margin-bottom:.5rem;">{{ note.uploaded_at.strftime('%b %d, %Y') }}</p>
+          <h3 class="truncate" style="font-size:.9375rem;font-weight:600;">{{ note.original_filename }}</h3>
+        </div>
+        <a href="{{ note.s3_url }}" class="btn-primary" style="margin-top:1.5rem;width:100%;font-size:.8125rem;padding:.625rem;text-decoration:none;" target="_blank">View File</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+</div>
+</main>
+
+{{ footer() }}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

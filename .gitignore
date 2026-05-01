@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+ENV/
+
+# Secrets & Keys
+.env
+*.pem
+*.key
+
+# DB
+*.db
+instance/
+
+# Flask
+app.log
+
+# Mac
+.DS_Store

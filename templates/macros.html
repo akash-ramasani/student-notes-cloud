@@ -1,0 +1,79 @@
+{% macro topbar(user) %}
+<nav class="topbar">
+  <div class="container topbar-inner">
+    <div style="display:flex;align-items:center;gap:2.5rem;">
+      <a href="/dashboard" class="logo">
+        <div class="logo-icon">N</div>
+        NoteCloud
+      </a>
+      <div class="nav-links" style="display:none;" id="desktop-nav">
+        <a href="/dashboard" class="nav-link {% if request.endpoint=='dashboard' %}active{% endif %}">Dashboard</a>
+        <a href="/account"   class="nav-link {% if request.endpoint=='account'   %}active{% endif %}">Profile</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:1.5rem;">
+      <div class="nav-user" style="display:none;" id="nav-user-info">
+        <span class="nav-user-name">{{ user.display_name }}</span>
+        <a href="/logout" class="nav-signout">Sign Out &rarr;</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+{# Automated Toast Logic for Flashed Messages #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        {% for category, message in messages %}
+          showToast("{{ message }}", "{{ 'success' if category == 'success' else 'error' }}");
+        {% endfor %}
+      });
+    </script>
+  {% endif %}
+{% endwith %}
+<style>
+@media(min-width:768px){ #desktop-nav, #nav-user-info { display: flex !important; } }
+</style>
+{% endmacro %}
+
+{% macro footer() %}
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <div class="logo" style="margin-bottom:1rem;">
+          <div class="logo-icon">N</div>
+          NoteCloud
+        </div>
+        <p style="font-size:.8125rem;color:var(--text-muted);line-height:1.6;max-width:15rem;">
+          The intelligent cloud platform for students and educators.
+        </p>
+      </div>
+      <div class="footer-section">
+        <h3>Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/account">Profile</a></li>
+          <li><a href="/logout">Sign Out</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Infrastructure</h3>
+        <ul class="footer-links">
+          <li><a href="#">AWS S3 Storage</a></li>
+          <li><a href="#">RDS MySQL</a></li>
+          <li><a href="#">Cognito Auth</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 NoteCloud. All rights reserved.</p>
+      <div style="display:flex;align-items:center;gap:.5rem;">
+        <span style="font-size:.75rem;color:#9ca3af;">All systems operational</span>
+        <span class="status-dot"></span>
+      </div>
+    </div>
+  </div>
+</footer>
+{% endmacro %}

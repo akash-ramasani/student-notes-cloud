@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Email | NoteCloud</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="fade-in" style="overflow:hidden;">
+
+{# Automated Toast Logic for Flashed Messages #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        {% for category, message in messages %}
+          showToast("{{ message }}", "{{ 'success' if category == 'success' else 'error' }}");
+        {% endfor %}
+      });
+    </script>
+  {% endif %}
+{% endwith %}
+
+<div class="auth-split">
+
+  <!-- Form Side -->
+  <div class="auth-form">
+    <div class="auth-form-inner">
+      <a href="/" class="logo" style="margin-bottom:2rem;display:inline-flex;">
+        <div class="logo-icon">N</div>
+        NoteCloud
+      </a>
+      <h2 style="font-size:1.875rem;font-weight:700;letter-spacing:-.025em;">Verify Email</h2>
+      <p style="margin-top:.5rem;font-size:.875rem;color:var(--text-muted);">
+        We've sent a 6-digit code to your email.
+      </p>
+
+      <form method="POST" style="margin-top:2rem;display:flex;flex-direction:column;gap:1.5rem;">
+        <div>
+          <label class="caps-label" style="display:block;margin-bottom:.5rem;">Verification Code</label>
+          <input type="text" name="otp" class="input-standard" required placeholder="000000" maxlength="6" style="text-align:center;font-size:1.5rem;letter-spacing:0.25em;font-weight:700;">
+        </div>
+        
+        <input type="hidden" name="username" value="{{ username }}">
+
+        <button type="submit" class="btn-primary" style="width:100%;padding:.75rem;">Verify Account</button>
+      </form>
+      
+      <p style="margin-top:1.5rem;text-align:center;font-size:.875rem;color:var(--text-muted);">
+        Didn't get a code? <a href="#" style="color:var(--primary);font-weight:600;text-decoration:none;">Resend OTP</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Visual Side -->
+  <div class="auth-visual" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+    <div class="deco" style="width:24rem;height:24rem;top:-6rem;right:-6rem;"></div>
+    <div style="position:relative;z-index:1;max-width:28rem;">
+      <div style="display:inline-flex;align-items:center;justify-content:center;width:3rem;height:3rem;background:rgba(255,255,255,.2);border-radius:1rem;font-size:1.5rem;margin-bottom:1.5rem;">📧</div>
+      <h2 style="font-size:2.25rem;font-weight:700;line-height:1.2;margin-bottom:1.25rem;">Final step to join NoteCloud.</h2>
+      <p style="font-size:1.0625rem;opacity:.85;line-height:1.7;margin-bottom:2rem;">
+        Security is our priority. Verifying your email ensures that your academic library remains private and accessible only to you.
+      </p>
+    </div>
+  </div>
+
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

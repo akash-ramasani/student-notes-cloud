@@ -1,0 +1,8 @@
+Flask
+boto3
+PyMySQL
+python-dotenv
+requests
+Flask-SQLAlchemy
+Flask-Login
+cryptography

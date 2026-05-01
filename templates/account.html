@@ -1,0 +1,112 @@
+{% from "macros.html" import topbar, footer %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile | NoteCloud</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="fade-in">
+
+{{ topbar(current_user) }}
+
+<main style="flex:1;padding-top:5rem;padding-bottom:4rem;">
+<div class="container">
+<div class="page-wrapper">
+
+  <!-- Page Header -->
+  <div class="page-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+    <div>
+      <p class="overline">Settings</p>
+      <h1>Your Profile</h1>
+      <p class="sub">Manage your personal details and security settings.</p>
+    </div>
+    <span class="badge badge-green">
+      <span class="status-dot" style="width:.375rem;height:.375rem;"></span>
+      {{ user.role.capitalize() }} Account
+    </span>
+  </div>
+
+  </div>
+
+  <!-- Personal Information -->
+  <div class="section-grid">
+    <div>
+      <p class="caps-label" style="color:var(--primary);margin-bottom:.25rem;">Account</p>
+      <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:.5rem;">Personal Information</h2>
+      <p style="font-size:.875rem;color:var(--text-muted);">Details tied to your account. Role cannot be changed.</p>
+    </div>
+    <div class="panel" style="padding:1.5rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;">
+        <div>
+          <label class="caps-label" style="display:block;margin-bottom:.5rem;">Username</label>
+          <input type="text" value="{{ user.username }}" disabled class="input-standard">
+        </div>
+        <div>
+          <label class="caps-label" style="display:block;margin-bottom:.5rem;">Role</label>
+          <input type="text" value="{{ user.role.capitalize() }}" disabled class="input-standard">
+        </div>
+      </div>
+      <div>
+        <label class="caps-label" style="display:block;margin-bottom:.5rem;">Email</label>
+        <input type="text" value="{{ user.email }}" disabled class="input-standard">
+      </div>
+    </div>
+  </div>
+
+  <!-- Display Name -->
+  <div class="section-grid">
+    <div>
+      <p class="caps-label" style="color:var(--primary);margin-bottom:.25rem;">Display</p>
+      <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:.5rem;">Display Name</h2>
+      <p style="font-size:.875rem;color:var(--text-muted);">
+        You can change your display name up to <strong>3 times</strong>.<br>
+        <span style="color:{% if user.name_changes_left==0 %}var(--red){% else %}var(--text-muted){% endif %};">{{ user.name_changes_left }} change{{ 's' if user.name_changes_left != 1 }} remaining.</span>
+      </p>
+    </div>
+    <div class="panel" style="padding:1.5rem;">
+      <form method="POST" style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div>
+          <label class="caps-label" style="display:block;margin-bottom:.5rem;">Display Name</label>
+          <input type="text" name="display_name" value="{{ user.display_name }}" class="input-standard"
+            {% if user.name_changes_left == 0 %}disabled{% endif %}
+            placeholder="How others will see you">
+        </div>
+        {% if user.name_changes_left > 0 %}
+        <div style="display:flex;justify-content:flex-end;">
+          <button type="submit" class="btn-primary">Save Display Name</button>
+        </div>
+        {% else %}
+        <p style="font-size:.8125rem;color:var(--red);font-weight:500;">Maximum name changes reached.</p>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+
+  <!-- Security -->
+  <div class="section-grid">
+    <div>
+      <p class="caps-label" style="color:var(--primary);margin-bottom:.25rem;">Security</p>
+      <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:.5rem;">Password & Access</h2>
+      <p style="font-size:.875rem;color:var(--text-muted);">Password management is secured by AWS Cognito.</p>
+    </div>
+    <div class="panel" style="padding:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:1rem;">
+        <div>
+          <p style="font-weight:600;font-size:.9375rem;">Password</p>
+          <p style="font-size:.8125rem;color:var(--text-muted);margin-top:.25rem;">Request a secure password reset link via email.</p>
+        </div>
+        <button class="btn-secondary" style="flex-shrink:0;">Reset Password</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+</main>
+
+{{ footer() }}
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
