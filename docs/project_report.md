@@ -1,46 +1,30 @@
-# Detailed Project Report - NoteCloud Platform
+# My Project Report - NoteCloud
 
-## Introduction and Goal
-My project is called NoteCloud. The main goal is to give students a safe place to keep their study materials. Many students only save things on their laptops. If the laptop crashes then all notes are gone. NoteCloud solves this by using AWS cloud services to store everything safely.
+## What is NoteCloud?
+I made NoteCloud to help students keep their notes safe in the cloud. Many students lose files when their laptop breaks. My app uses AWS so students can upload their notes and never lose them. 
 
-## Features and Functionality
-I built many features to make this a real system for school.
+## Features I built
+I built these features to make the app useful for school:
 
-### 1. User Accounts and Security
-Users can make an account as a Student or a Professor. I used AWS Cognito for this because it is very secure. It handles the login and registration. If a user forgets their password they can reset it with a code sent to their email. The login page has a special 40/60 split design which looks very professional and modern.
+### 1. Secure Login with Cognito
+I used AWS Cognito for the login. It is very safe. I made a custom login page with a 40/60 split design. The form is on the left and a nice background is on the right. If you forget your password you can reset it with an email code.
 
-### 2. Personal Library
-Every student has their own private space. They can upload PDFs or images here. They can see all their files in a list and download them whenever they want. This means they can access notes from any computer.
+### 2. Personal Note Storage
+Every student has a dashboard. I made it so you can upload your own PDFs or images. These files go to my S3 bucket. You can download or delete them anytime.
 
-### 3. Smart Classrooms
-This is a big part of the app. Professors can create a class and get a join code. Students use this code to enter the class. Inside the class the professor can organize the curriculum.
-* **Modules and Exams**: Professors can add learning modules or midterms and finals.
-* **Inline Editing**: I made it so professors can edit the names of modules directly in the table without opening new pages.
-* **Automatic Sorting**: The system is smart. It always puts the Final Exam at the bottom and Modules at the top so it stays organized.
+### 3. Classroom and Curriculum
+I built a classroom system where professors and students can talk.
+* **Join Codes**: Every class has a code. I made it so students just enter the code to join.
+* **Module Table**: I built a clean table to show all the study modules. 
+* **Inline Editing**: If you are a professor you can click the edit icon and change the module name right in the table. I made this so you don't have to open new pages.
+* **Final Exam at Bottom**: I wrote code to make sure the Final Exam always stays at the bottom of the list so it stays organized.
 
-## Technical Implementation
+## How I built it (Tech Stack)
+* **Frontend**: I used HTML and CSS for all the designs. I made it look very modern.
+* **Backend**: I used Python Flask for all the logic.
+* **Database**: I used MySQL on Amazon RDS to store user names and class info.
+* **File Storage**: I used Amazon S3 for all the PDFs.
+* **Monitoring**: I used Amazon CloudWatch to see my app logs in the AWS console.
 
-### Frontend
-I used HTML and CSS for the design. I did not use templates from internet. I built a custom design system with nice colors and smooth animations. I used some Javascript to make the toasts and the inline editing work smoothly.
-
-### Backend
-The backend is written in Python using the Flask framework. It handles all the logic like checking who is logged in and talking to the database.
-
-### AWS Services Used
-* **Amazon S3**: This is the heart of the storage. Every file a student uploads goes here. It is very reliable.
-* **Amazon EC2**: This is where the website is running. I have a server in the cloud that stays on all the time.
-* **Amazon RDS**: I use a MySQL database here. It stores the names of users and which students are in which class.
-* **AWS Cognito**: This is for the authentication. It makes sure only the right people can see the notes.
-* **Amazon CloudWatch**: I added this to monitor the app. Every time someone logs in or uploads a file it sends a message to CloudWatch. This is good for seeing if there are errors.
-
-## Project Performance
-The app works very well. Because I use S3 the files are delivered very fast. The RDS database is also optimized so the classroom lists load quickly. The design is responsive so it works on mobile phones too.
-
-## What Worked Well
-The integration between Flask and AWS was very good. Using the Boto3 library made it easy to talk to S3 and CloudWatch. Also the 40/60 split design on the login page came out looking very nice.
-
-## Issues Faced
-I had some trouble with the database schema. First I only had one file per module but then I wanted many files. I had to make a new table and link them. It was a bit hard to fix the data but I learned a lot about SQL. Also setting up the CloudWatch logs took some time to get the permissions right in AWS.
-
-## Conclusion
-NoteCloud is a complete cloud application. It uses storage and compute and database services from AWS. It solves a real problem for students and shows how cloud computing can make life easier.
+## What I learned
+I had some trouble with the database tables at first but I fixed it. I learned a lot about how to connect Python to AWS services like S3 and Cognito. My app is fast and it works good on mobile too.

@@ -1,25 +1,20 @@
-# Installation and Execution Guide
+# How to run my project
 
-To run this project you need to follow these steps. Make sure you have python installed on your computer.
+Follow these steps to get my app running on your computer.
 
-## Requirements
-You need these things:
-* Python 3
-* pip
-* AWS account for S3 and Cognito
-* MySQL database (local or RDS)
+## What you need
+* Python 3 installed
+* Your AWS keys (S3, Cognito, etc.)
+* A MySQL database
 
-## Setup Steps
-1. First get the source code folder.
-2. Open the terminal and go to the project folder.
-3. You should make a virtual environment so things dont break. Run `python -m venv .venv`.
-4. Activate it with `source .venv/bin/activate`.
-5. Now install all the libraries with `pip install -r requirements.txt`.
-6. You need to make a `.env` file and put your AWS keys and database info there. Use the template I provided.
-7. To make the database tables run `python migrate_db.py`.
+## Steps to setup
+1. Open the project folder in your terminal.
+2. Make a virtual environment: `python -m venv .venv`.
+3. Activate it: `source .venv/bin/activate`.
+4. Install all the libraries: `pip install -r requirements.txt`.
+5. Make a `.env` file and put your AWS and DB info there. I included a template for you.
+6. Run `python migrate_db.py` to make the database tables.
 
-## Running the App
-After you do all steps just run this command:
-`python app.py`
-
-The app will start on port 5001. You can go to `localhost:5001` in your browser to see the website. If you are on EC2 then use the public IP of the server.
+## Starting the app
+Just run `python app.py`. 
+The app will start on `localhost:5001`. You can open this in your browser to see my project.

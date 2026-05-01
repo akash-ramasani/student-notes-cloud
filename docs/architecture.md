@@ -1,35 +1,21 @@
-# Architecture and Service Relationships
+# My App Architecture
 
-This document explains the technical side of how NoteCloud is built using AWS.
+This document shows how I used AWS services to build NoteCloud.
 
-## System Architecture
-The app is built using a "Three-Tier Architecture" style but on the cloud.
+## How the services talk to each other
+I connected many AWS parts together to make my app work.
 
-1. **User Interface (Frontend)**:
-The users see the website made with HTML and CSS. They interact with the app by clicking buttons or uploading files. These requests go over the internet to our server.
+1. **EC2 (The Server)**: This is where my Flask code is running. It is the center of the app.
+2. **Cognito (The Lock)**: When you try to login, my app asks Cognito if your password is right. I don't store passwords myself because Cognito is safer.
+3. **RDS (The Brain)**: All the text data like student names and class lists are in my MySQL database here. 
+4. **S3 (The Storage)**: When you upload a file, I send it to my S3 bucket. My database only saves the link to the file.
+5. **CloudWatch (The Watchman)**: I send my app logs here so I can see what is happening in the AWS console.
 
-2. **Application Logic (Backend)**:
-The Flask app is running on an **Amazon EC2** instance. This is a virtual server in the AWS cloud. This server is the "brain" of the app. It checks if you are a student or professor and decides what you can see.
+## Links to AWS Services
+* S3: https://aws.amazon.com/s3/
+* EC2: https://aws.amazon.com/ec2/
+* RDS: https://aws.amazon.com/rds/
+* Cognito: https://aws.amazon.com/cognito/
+* CloudWatch: https://aws.amazon.com/cloudwatch/
 
-3. **Data and Storage (Backend Services)**:
-The app uses three different services to keep your data safe.
-* **AWS Cognito**: When you type your password the EC2 server asks Cognito "is this person real?". Cognito handles all the security so we don't have to worry about hackers.
-* **Amazon RDS (MySQL)**: All the "text" data is here. Like your name, your display name, the names of your classes, and which module belongs to which week.
-* **Amazon S3**: This is for the "big" data. When you upload a PDF it is sent to an S3 bucket. The database only stores a "link" to the file in S3.
-
-## Monitoring and Logs
-We use **Amazon CloudWatch** to keep an eye on everything.
-* The EC2 server sends "heartbeats" and "logs" to CloudWatch.
-* If a student uploads a file we log it.
-* If there is a crash we can see the error in the CloudWatch console.
-
-## External Resource Links
-You can learn more about these services here:
-* Cloud Storage (S3): https://aws.amazon.com/s3/
-* Virtual Servers (EC2): https://aws.amazon.com/ec2/
-* Relational Databases (RDS): https://aws.amazon.com/rds/
-* Identity Management (Cognito): https://aws.amazon.com/cognito/
-* Monitoring (CloudWatch): https://aws.amazon.com/cloudwatch/
-
-## Summary
-By using these services together the app is very strong. If one part has a problem the other parts still work. This is the power of cloud computing for students.
+I used these services because they make my app very professional and secure.
