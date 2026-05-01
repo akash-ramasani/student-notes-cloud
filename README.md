@@ -1,29 +1,29 @@
-# NoteCloud - My Cloud Based Student Notes Storage System
+NOTECLOUD MY CLOUD BASED STUDENT NOTES STORAGE SYSTEM
 
-## What is my project?
-I built NoteCloud to give students a safe and easy way to store their school notes in the cloud. Many students lose their files when their computer breaks or they delete something by mistake. My app solves this by using AWS cloud services to keep everything safe and accessible from anywhere.
+WHAT IS MY PROJECT
+I built notecloud to help students keep notes safe in cloud: many students lose files when computer breaks: my app solve this by using aws cloud services to keep everything safe and accessible from anywhere
 
-## Key Features
-* **Modern Login Page**: I built a custom authentication page with a 40/60 split design. It uses AWS Cognito to make logins very secure.
-* **Personal Library**: Students can upload their own PDFs and images to my S3 bucket. They can see, download, or delete them anytime.
-* **Smart Classrooms**: I built a system where professors can make classes. Students join with a code. 
-* **Inline Table Editing**: Professors can change the names of modules directly in the table. I also made it so the Final Exam always stays at the bottom of the list.
-* **Cloud Monitoring**: I connected my app to AWS CloudWatch so I can see logs and track activity in the AWS console.
+KEY FEATURES
+MODERN LOGIN PAGE: i built custom authentication page with 40 60 split design: it uses aws cognito to make logins very secure
+PERSONAL LIBRARY: students can upload own pdf and images to my s3 bucket: they can see download or delete anytime
+SMART CLASSROOMS: i built system where professors can make classes: students join with code
+INLINE TABLE EDITING: professors can change names of modules right in table: i also made it so final exam always stays at bottom of list
+CLOUD MONITORING: i connected my app to aws cloudwatch so i can see logs and track activity in aws console
 
-## The Tech Stack I used
-* **Backend**: Python (Flask)
-* **Frontend**: HTML, CSS, Javascript
-* **Database**: MySQL on Amazon RDS
-* **Storage**: Amazon S3
-* **Auth**: AWS Cognito
-* **Monitoring**: Amazon CloudWatch
-* **Server**: Amazon EC2
+TECH STACK I USED
+BACKEND: python flask
+FRONTEND: html css javascript
+DATABASE: mysql on amazon rds
+STORAGE: amazon s3
+AUTH: aws cognito
+MONITORING: amazon cloudwatch
+SERVER: amazon ec2
 
-## How to see more details
-I wrote detailed reports for my project which you can find in the **docs/** folder:
-* **project_report.md**: Full details on how my app works.
-* **architecture.md**: How I connected all the AWS services.
-* **setup_guide.md**: How to install and run my code.
-* **technical_details.md**: Deep dive into my code and logic.
+HOW TO SEE MORE DETAILS
+I wrote detailed reports for my project in docs folder:
+project report md: full details on how my app works
+architecture md: how i connected all aws services
+setup guide md: how to install and run my code
+technical details md: deep dive into my code and logic
 
-I hope you like my project!
+I hope you like my project

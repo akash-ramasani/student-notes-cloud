@@ -1,25 +1,25 @@
-# Technical details of my project
+TECHNICAL DETAILS OF MY PROJECT
 
-Here I explain how my code works.
+Here i explain how my code works:
 
-## 1. How I handle Login
-I use `auth_service.py` to talk to AWS Cognito. When you register, I send your email to Cognito and it sends you a code. My code checks that code to make sure it is really you.
+1 HOW I HANDLE LOGIN
+I use auth service py to talk to aws cognito: when you register i send your email to cognito and it sends you code: my code checks that code to make sure it is really you
 
-## 2. How I store Files
-In `s3_service.py`, I wrote code to upload files to Amazon S3. When you want to see a file, I generate a secret "Pre-signed" link. This link only works for a short time so it is very secure.
+2 HOW I STORE FILES
+In s3 service py i wrote code to upload files to amazon s3: when you want to see file i generate secret pre signed link: this link only works for short time so it is very secure
 
-## 3. How my Database is organized
-In `db_service.py`, I made several tables:
-* **Users**: For student and professor info.
-* **Classes**: For the class names and codes.
-* **Materials**: This table lets me link many files to just one module.
+3 HOW MY DATABASE IS ORGANIZED
+In db service py i made several tables:
+USERS: for student and professor info
+CLASSES: for class names and codes
+MATERIALS: this table lets me link many files to just one module
 
-## 4. How my Pages work
-I wrote the logic in `app.py`. 
-* I made a sorting system so the **Final Exam** always comes last in the classroom list.
-* I built **Inline Editing** so professors can change module names right in the table without reloading the page.
+4 HOW MY PAGES WORK
+I wrote logic in app py:
+i made sorting system so final exam always comes last in classroom list
+i built inline editing so professors can change module names right in table without reloading page
 
-## 5. How I monitor the app
-I use `watchtower` to send my Python logs to AWS CloudWatch. I can see every login and upload in the AWS console.
+5 HOW I MONITOR APP
+I use watchtower to send my python logs to aws cloudwatch: i can see every login and upload in aws console
 
-I built everything to be clean and simple to use.
+I built everything to be clean and simple to use

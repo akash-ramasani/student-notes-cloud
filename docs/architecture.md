@@ -1,38 +1,38 @@
-# My App Architecture
+MY APP ARCHITECTURE
 
-This document shows how I used AWS services to build NoteCloud and how everything stays safe and fast.
+This document shows how i used aws services to build notecloud and how everything stays safe and fast:
 
-## How the services talk to each other
-I connected many AWS parts together to make my app work.
+HOW SERVICES TALK TO EACH OTHER
+I connected many aws parts together to make my app work:
 
-1. **EC2 (The Server)**: This is where my Flask code is running. It is the center of the app.
-2. **Cognito (The Lock)**: When you try to login, my app asks Cognito if your password is right. I don't store passwords myself because Cognito is safer.
-3. **RDS (The Brain)**: All the text data like student names and class lists are in my MySQL database here. 
-4. **S3 (The Storage)**: When you upload a file, I send it to my S3 bucket. My database only saves the link to the file.
-5. **CloudWatch (The Watchman)**: I send my app logs here so I can see what is happening in the AWS console.
+1 EC2 THE SERVER: this is where my flask code is running: it is center of app
+2 COGNITO THE LOCK: when you try to login my app asks cognito if password is right: i dont store passwords myself because cognito is safer
+3 RDS THE BRAIN: all text data like student names and class lists are in my mysql database here
+4 S3 THE STORAGE: when you upload file i send it to s3 bucket: my database only saves link to file
+5 CLOUDWATCH THE WATCHMAN: i send my app logs here so i can see what is happening in aws console
 
-## How the Data flows
-I designed the system so data moves in a safe path:
-* **Upload**: Student ➡️ EC2 Server ➡️ Amazon S3.
-* **Download**: S3 ➡️ Secure Pre-signed Link ➡️ Student Browser.
-* **Metadata**: EC2 Server ➡️ RDS MySQL Database.
+HOW DATA FLOWS
+I designed system so data moves in safe path:
+UPLOAD: student ec2 server amazon s3
+DOWNLOAD: s3 secure pre signed link student browser
+METADATA: ec2 server rds mysql database
 
-## Security Measures
+SECURITY MEASURES
 I made sure my app is secure for students:
-* **Private Storage**: My S3 bucket is private. You can only get files if the app gives you a special "Pre-signed URL" that expires after a few minutes.
-* **Network Firewall**: I use EC2 Security Groups to only allow traffic on certain ports. This stops hackers from entering the server.
-* **Encrypted Auth**: Cognito handles all the encryption for user passwords and emails.
+PRIVATE STORAGE: my s3 bucket is private: you can only get files if app gives you special pre signed url that expires after few minutes
+NETWORK FIREWALL: i use ec2 security groups to only allow traffic on certain ports: this stops hackers from entering server
+ENCRYPTED AUTH: cognito handles all encryption for user passwords and emails
 
-## Why this is better on the Cloud
-* **Scalability**: If I have 1,000 more students tomorrow, Amazon S3 and RDS can grow automatically to store all their notes.
-* **Reliability**: If my EC2 server restarts, all the notes and user accounts are still safe in S3 and RDS.
-* **Global Access**: Because it is on AWS, students can access their notes from anywhere in the world.
+WHY THIS IS BETTER ON CLOUD
+SCALABILITY: if i have 1000 more students tomorrow amazon s3 and rds can grow automatically to store all their notes
+RELIABILITY: if my ec2 server restarts all notes and user accounts are still safe in s3 and rds
+GLOBAL ACCESS: because it is on aws students can access notes from anywhere in world
 
-## Links to AWS Services
-* S3 Storage: https://aws.amazon.com/s3/
-* EC2 Servers: https://aws.amazon.com/ec2/
-* RDS Database: https://aws.amazon.com/rds/
-* Cognito Auth: https://aws.amazon.com/cognito/
-* CloudWatch Monitoring: https://aws.amazon.com/cloudwatch/
+LINKS TO AWS SERVICES
+s3 storage: https:aws amazon com s3
+ec2 servers: https:aws amazon com ec2
+rds database: https:aws amazon com rds
+cognito auth: https:aws amazon com cognito
+cloudwatch monitoring: https:aws amazon com cloudwatch
 
-I used these services because they make my app very professional and secure.
+I used these services because they make my app very professional and secure
