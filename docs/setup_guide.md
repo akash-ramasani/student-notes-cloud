@@ -17,4 +17,4 @@ STEPS TO SETUP
 
 STARTING APP
 Just run python app py:
-app will start on localhost 5001: you can open this in browser to see my project
+app will start on localhost 5001: you can open this in browser to see my project: for production i used nginx to point notecloud akashramasani com to this port

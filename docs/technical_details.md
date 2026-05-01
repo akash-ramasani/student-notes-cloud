@@ -19,7 +19,10 @@ I wrote logic in app py:
 i made sorting system so final exam always comes last in classroom list
 i built inline editing so professors can change module names right in table without reloading page
 
-5 HOW I MONITOR APP
+5 WEB SERVER AND SSL
+I configured nginx as reverse proxy to handle requests for notecloud akashramasani com: i also setup certbot for automatic ssl renewal
+
+6 HOW I MONITOR APP
 I use watchtower to send my python logs to aws cloudwatch: i can see every login and upload in aws console
 
 I built everything to be clean and simple to use

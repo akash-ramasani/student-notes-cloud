@@ -6,21 +6,23 @@ HOW SERVICES TALK TO EACH OTHER
 I connected many aws parts together to make my app work:
 
 1 EC2 THE SERVER: this is where my flask code is running: it is center of app
-2 COGNITO THE LOCK: when you try to login my app asks cognito if password is right: i dont store passwords myself because cognito is safer
-3 RDS THE BRAIN: all text data like student names and class lists are in my mysql database here
-4 S3 THE STORAGE: when you upload file i send it to s3 bucket: my database only saves link to file
-5 CLOUDWATCH THE WATCHMAN: i send my app logs here so i can see what is happening in aws console
+2 NGINX THE GATEKEEPER: i used nginx to receive traffic from notecloud akashramasani com and send it to flask
+3 COGNITO THE LOCK: when you try to login my app asks cognito if password is right: i dont store passwords myself because cognito is safer
+4 RDS THE BRAIN: all text data like student names and class lists are in my mysql database here
+5 S3 THE STORAGE: when you upload file i send it to s3 bucket: my database only saves link to file
+6 CLOUDWATCH THE WATCHMAN: i send my app logs here so i can see what is happening in aws console
 
 HOW DATA FLOWS
 I designed system so data moves in safe path:
-UPLOAD: student ec2 server amazon s3
+UPLOAD: student nginx ec2 server amazon s3
 DOWNLOAD: s3 secure pre signed link student browser
 METADATA: ec2 server rds mysql database
 
 SECURITY MEASURES
 I made sure my app is secure for students:
+SSL ENCRYPTION: i used certbot to get ssl certificate so all traffic is https: this is very professional
 PRIVATE STORAGE: my s3 bucket is private: you can only get files if app gives you special pre signed url that expires after few minutes
-NETWORK FIREWALL: i use ec2 security groups to only allow traffic on certain ports: this stops hackers from entering server
+NETWORK FIREWALL: i use ec2 security groups to only allow traffic on certain ports: i opened port 80 and 443 for web traffic
 ENCRYPTED AUTH: cognito handles all encryption for user passwords and emails
 
 WHY THIS IS BETTER ON CLOUD
